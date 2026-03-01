@@ -141,4 +141,12 @@ public class AuthController {
 
     }
 
+    @PostMapping("/signout")
+    public ResponseEntity<?> signoutUser(){
+        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(new  MessageResponse("Successfully signed out."));
+    }
+
 }
