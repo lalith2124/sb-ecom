@@ -1,17 +1,28 @@
 package com.ecommerce.project.security.response;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.List;
 
+@JsonPropertyOrder({"id", "jwtToken", "username", "roles"})
 public class UserInfoResponse {
     private Long id;
     private String username;
-    private String jwtToken;
     private List<String> roles;
+    private String jwtToken;
 
-    public UserInfoResponse(Long id,  String username, String jwtToken, List<String> roles) {
+
+    public UserInfoResponse(Long id,  String username, List<String> roles, String jwtToken) {
         this.id = id;
         this.username = username;
+        this.roles = roles;
         this.jwtToken = jwtToken;
+
+    }
+
+    public UserInfoResponse(Long id, String username, List<String> roles) {
+        this.id = id;
+        this.username = username;
         this.roles = roles;
     }
 
@@ -33,6 +44,14 @@ public class UserInfoResponse {
         this.username = username;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public String getJwtToken() {
         return jwtToken;
     }
@@ -41,11 +60,4 @@ public class UserInfoResponse {
         this.jwtToken = jwtToken;
     }
 
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
 }
