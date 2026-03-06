@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api")
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
 }
