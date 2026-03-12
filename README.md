@@ -1,148 +1,138 @@
-# 🛒 E-Commerce Backend API
+<div align="center">
 
-A scalable **E-Commerce Backend REST API** built using **Java and Spring Boot**.  
-This project provides APIs for managing **users, products, categories, carts, orders, and addresses** with **JWT-based authentication and role-based authorization**.
+# 🛒 sb-ecom — E-Commerce Backend API
+
+**A production-ready RESTful E-Commerce Backend built with Java & Spring Boot**
+
+[![Java](https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://swagger.io/)
+[![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
+
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Architecture](#-system-architecture) • [API Docs](#-api-endpoints) • [Setup](#%EF%B8%8F-getting-started) • [Author](#-author)
+
+</div>
 
 ---
 
-## 🚀 Features
+## 📌 Overview
+
+**sb-ecom** is a fully functional, scalable E-Commerce REST API built with **Java 17** and **Spring Boot 3**. It implements enterprise-grade design patterns across product management, user authentication, shopping cart, order processing, and address management — all secured with **JWT-based authentication** and **role-based access control**.
+
+This project is designed with clean layered architecture, making it production-ready and straightforward to extend with features like payment gateways, microservices, or cloud deployment.
+
+---
+
+## ✨ Features
 
 ### 🔐 Authentication & Security
-- User Registration & Login
-- JWT Authentication
-- Role-Based Authorization
-- Password encryption using Spring Security
+- User **Registration** and **Login** with encrypted passwords
+- **JWT (JSON Web Token)** based stateless authentication
+- **Role-Based Access Control** (Admin / User roles)
+- Password hashing using **BCrypt** via Spring Security
 
 ### 🛍️ Product Management
-- Create products
-- Update products
-- Delete products
-- Fetch products with pagination
+- Full **CRUD** operations on products
+- **Pagination & Sorting** support for product listings
+- Image upload support per product
+- Associate products with categories
 
 ### 📂 Category Management
-- Create categories
-- Update categories
-- Delete categories
-- Fetch all categories
+- Create, update, delete, and fetch categories
+- Hierarchical product-to-category associations
 
 ### 🛒 Cart Management
-- Add product to cart
-- Update cart item quantity
-- Remove items from cart
+- Add products to cart
+- Update item quantities dynamically
+- Remove individual items from cart
+- Cart is persisted per authenticated user
 
 ### 📦 Order Management
-- Place orders
-- View order history
+- Place orders directly from cart
+- Full order history per user
+- Order status tracking
 
 ### 📍 Address Management
-- Add address
-- Update address
-- Delete address
-- Get addresses for a user
+- Add, update, and delete delivery addresses
+- Retrieve all saved addresses for a user
+- Link addresses to orders at checkout
 
 ### 📄 API Documentation
-- Swagger / OpenAPI integration
+- Fully interactive **Swagger UI** (OpenAPI 3.0)
+- All endpoints documented with request/response schemas
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend
-- Java
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-- Hibernate
-
-### Database
-- PostgreSQL
-
-### Tools
-- Maven
-- Git & GitHub
-- Postman
-- Swagger (OpenAPI)
+| Layer | Technology |
+|-------|-----------|
+| **Language** | Java 17 |
+| **Framework** | Spring Boot 3.x |
+| **Security** | Spring Security + JWT |
+| **ORM** | Spring Data JPA + Hibernate |
+| **Database** | PostgreSQL |
+| **Build Tool** | Maven |
+| **API Docs** | Swagger / OpenAPI 3.0 |
+| **Testing** | Postman |
+| **Version Control** | Git & GitHub |
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-Client (Postman / Frontend)
-        |
-        v
-Controller Layer
-        |
-        v
-Service Layer
-        |
-        v
-Repository Layer
-        |
-        v
-PostgreSQL Database
+Client (Browser / Postman / Mobile App)
+             │
+             ▼
+     ┌──────────────┐
+     │  JWT Filter  │  ◄── Validates token on every request
+     └──────┬───────┘
+            │
+            ▼
+     ┌──────────────────┐
+     │ Controller Layer │  ◄── Handles HTTP requests & responses
+     └──────┬───────────┘
+            │
+            ▼
+     ┌──────────────────┐
+     │  Service Layer   │  ◄── Business logic & validations
+     └──────┬───────────┘
+            │
+            ▼
+     ┌────────────────────┐
+     │  Repository Layer  │  ◄── Spring Data JPA interfaces
+     └──────┬─────────────┘
+            │
+            ▼
+     ┌──────────────┐
+     │  PostgreSQL  │  ◄── Persistent data storage
+     └──────────────┘
 ```
 
-Security Flow
+### Security Flow
 
 ```
-Client Request
-      |
-      v
-JWT Token Validation
-      |
-      v
-Spring Security Filter
-      |
-      v
-Protected API Endpoints
-```
-
----
-
-## 📚 API Documentation
-
-Swagger UI is available at:
-
-```
-http://localhost:8080/swagger-ui/index.html
-```
-
-Swagger allows you to:
-- Explore all APIs
-- Send requests
-- View request and response schemas
-
----
-
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/yourusername/ecommerce-backend.git
-```
-
-### 2️⃣ Navigate to project folder
-
-```bash
-cd ecommerce-backend
-```
-
-### 3️⃣ Configure PostgreSQL
-
-Update the `application.properties` file:
-
-```
-spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce
-spring.datasource.username=postgres
-spring.datasource.password=yourpassword
-```
-
-Application will start at:
-
-```
-http://localhost:8080
+Incoming Request
+       │
+       ▼
+JWT Token Present?
+   ├── NO  ──► 401 Unauthorized
+   └── YES ──► Validate Token
+                    │
+                    ▼
+             Token Valid?
+          ├── NO  ──► 403 Forbidden
+          └── YES ──► Load User + Roles
+                           │
+                           ▼
+                  Authorize by Role
+                  (ADMIN / USER)
+                           │
+                           ▼
+                  ✅ Access Granted
 ```
 
 ---
@@ -150,58 +140,162 @@ http://localhost:8080
 ## 📂 Project Structure
 
 ```
-src/main/java/com/ecommerce/project
+src/main/java/com/ecommerce/project/
 │
-├── config
-├── controller
-├── dto
-├── entity
-├── exception
-├── repository
-├── security
-├── service
-└── util
+├── 📁 config/          # Spring Security & app configuration
+├── 📁 controller/      # REST controllers (entry points)
+├── 📁 dto/             # Data Transfer Objects (request/response models)
+├── 📁 entity/          # JPA entity classes (database models)
+├── 📁 exception/       # Global exception handling & custom exceptions
+├── 📁 repository/      # Spring Data JPA repository interfaces
+├── 📁 security/        # JWT utility, filters, UserDetailsService
+├── 📁 service/         # Business logic & service interfaces
+└── 📁 util/            # Helper/utility classes
 ```
 
 ---
 
-## 📬 Example API Endpoints
+## 📬 API Endpoints
 
-| Method | Endpoint | Description |
-|------|------|------|
-| POST | /api/auth/signup | Register user |
-| POST | /api/auth/signin | Login user |
-| GET | /api/products | Get all products |
-| POST | /api/products | Create product |
-| PUT | /api/products/{id} | Update product |
-| DELETE | /api/products/{id} | Delete product |
-| GET | /api/categories | Get all categories |
+### 🔐 Authentication
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `POST` | `/api/auth/signup` | Register a new user | ❌ Public |
+| `POST` | `/api/auth/signin` | Login and receive JWT token | ❌ Public |
+
+### 🛍️ Products
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/api/products` | Get all products (paginated) | ❌ Public |
+| `GET` | `/api/products/{id}` | Get product by ID | ❌ Public |
+| `POST` | `/api/products` | Create a new product | ✅ Admin |
+| `PUT` | `/api/products/{id}` | Update a product | ✅ Admin |
+| `DELETE` | `/api/products/{id}` | Delete a product | ✅ Admin |
+
+### 📂 Categories
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/api/categories` | Get all categories | ❌ Public |
+| `POST` | `/api/categories` | Create a category | ✅ Admin |
+| `PUT` | `/api/categories/{id}` | Update a category | ✅ Admin |
+| `DELETE` | `/api/categories/{id}` | Delete a category | ✅ Admin |
+
+### 🛒 Cart
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/api/cart` | View cart | ✅ User |
+| `POST` | `/api/cart/products/{productId}/quantity/{qty}` | Add product to cart | ✅ User |
+| `PUT` | `/api/cart/products/{productId}/quantity/{operation}` | Update cart item | ✅ User |
+| `DELETE` | `/api/cart/{cartId}/product/{productId}` | Remove item from cart | ✅ User |
+
+### 📦 Orders
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `POST` | `/api/order/users/{email}/payments/{paymentMethod}` | Place an order | ✅ User |
+| `GET` | `/api/orders` | Get all orders | ✅ Admin |
+| `GET` | `/api/orders/user` | Get logged-in user's orders | ✅ User |
+
+### 📍 Addresses
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/api/addresses` | Get all addresses | ✅ User |
+| `POST` | `/api/addresses` | Add a new address | ✅ User |
+| `PUT` | `/api/addresses/{id}` | Update an address | ✅ User |
+| `DELETE` | `/api/addresses/{id}` | Delete an address | ✅ User |
+
+> 📝 **Authorization Header format:**
+> ```
+> Authorization: Bearer <YOUR_JWT_TOKEN>
+> ```
 
 ---
 
-## 🧪 Testing
+## ⚙️ Getting Started
 
-You can test APIs using:
+### Prerequisites
 
-- Swagger UI
-- Postman
+- Java 17+
+- Maven 3.8+
+- PostgreSQL 14+
 
-Example Authorization Header:
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/lalith2124/sb-ecom.git
+cd sb-ecom
+```
+
+### 2. Configure the Database
+
+Create a PostgreSQL database:
+
+```sql
+CREATE DATABASE ecommerce;
+```
+
+Update `src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce
+spring.datasource.username=your_postgres_username
+spring.datasource.password=your_postgres_password
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+app.jwtSecret=your_jwt_secret_key
+app.jwtExpirationMs=86400000
+```
+
+### 3. Build & Run
+
+```bash
+./mvnw spring-boot:run
+```
+
+The server will start at: **`http://localhost:8080`**
+
+### 4. Explore the API
+
+Open Swagger UI in your browser:
 
 ```
-Authorization: Bearer <JWT_TOKEN>
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ---
 
-## 🚀 Future Improvements
+## 🧪 Testing the API
 
-- Payment gateway integration
-- Docker containerization
-- Redis caching
-- Microservices architecture
-- CI/CD pipeline
-- Cloud deployment (AWS)
+You can test all endpoints using:
+
+- **Swagger UI** — interactive browser-based testing at `/swagger-ui/index.html`
+- **Postman** — import endpoints and test with JWT token in headers
+
+**Quick Test Flow:**
+1. `POST /api/auth/signup` → Register a user
+2. `POST /api/auth/signin` → Get JWT token
+3. Copy token → Add to `Authorization: Bearer <token>` header
+4. Start shopping! 🛒
+
+---
+
+## 🚀 Roadmap
+
+- [ ] 💳 Payment gateway integration (Stripe / Razorpay)
+- [ ] 🐳 Docker & Docker Compose containerization
+- [ ] ⚡ Redis caching for product listings
+- [ ] 🧪 Unit & Integration testing (JUnit 5 + Mockito)
+- [ ] ☁️ Cloud deployment on AWS (EC2 / RDS / S3)
+- [ ] 🔄 CI/CD pipeline via GitHub Actions
+- [ ] 🏗️ Microservices migration
+- [ ] 📧 Email notifications for order updates
 
 ---
 
@@ -209,8 +303,12 @@ Authorization: Bearer <JWT_TOKEN>
 
 **Lalith K**
 
-GitHub: https://github.com/lalith2124
+[![GitHub](https://img.shields.io/badge/GitHub-lalith2124-181717?style=flat-square&logo=github)](https://github.com/lalith2124)
 
 ---
 
-⭐ If you like this project, consider **starring the repository**.
+<div align="center">
+
+⭐ **If you found this project useful, please consider giving it a star!** ⭐
+
+</div>
